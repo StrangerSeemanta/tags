@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="tagstyle.css">
+    <script src="scripts/jquery-3.7.0.js"></script>
+    <title>Tags</title>
+</head>
+
+<body>
+    <form id="hashForm" name="hashForm" action="converter.php" method="post">
+        <label for="withHash">Hashtag to Comma-Separated tag Converter</label>
+        <input required placeholder="type your tags eg: #youtube #shorts #virals" name="withHash" id="withHash">
+        <div class="btn-holder">
+            <button type="submit">Convert</button>
+            <button type="button" title="Save these tags into your computer" onclick="showModal()">Read</button>
+
+        </div>
+    </form>
+
+    <form id="commaForm" name="commaForm" action="commaToHash.php" method="post">
+        <label for="withHash">Comma-Seperated tag to Hashtag Converter</label>
+        <input required placeholder="type your tags eg: youtube,shorts,virals" name="withComma" id="withComma">
+        <div class="btn-holder">
+            <button type="submit">Convert</button>
+            <button type="button" title="Save these tags into your computer" onclick="showModal()">Read</button>
+
+        </div>
+    </form>
+
+    <div class="modal-container hide">
+        <div class="modal">
+            <div class="close-btn" onclick="hideModal()"></div>
+            <h1 id="modal-head">Enter Details</h1>
+            <div id="modal-body">
+                <form id="saveForm" autocomplete="off" action="save.php" method="post">
+                    <label for="fname">Enter your file name</label>
+                    <input placeholder="file name: mytags, my tags 1" type="text" name="fname" id="fname" required>
+
+                    <label for="ftype">Select your file type</label>
+                    <select name="ftype" id="ftype">
+                        <option value="txt" selected>Plain text (.txt)</option>
+                        <option value="doc">Microsoft Document (.doc)</option>
+                        <option value="html">Hypertext Marking Language (.html)</option>
+                        <option value="pdf">Portable Document Format (.pdf)</option>
+
+                    </select>
+                    <button type="submit">Save</button>
+
+
+                </form>
+                <h3>Saved files:</h3>
+                <select name="fview" id="fview">
+                   
+                </select>
+                <button class="modal-btn fview-btn" onclick="fread()">Open</button>
+                <button class="modal-btn frem-btn" onclick="fremove()">Delete</button>
+
+            </div>
+
+        </div>
+    </div>
+    
+    <div id="response">
+        
+    </div>
+
+
+</body>
+<script src="scripts/server_handler.js"></script>
+<script>
+    window.addEventListener('load',function(){update_file_list()})
+    $("input#withHash").keydown(function(e){
+        const key = event.key;
+        if ((key === ',') || (key === '.')) {
+            event.preventDefault();
+            alert('You cant use "," or "." sign in here :-)')
+        }
+    })
+    $("input#withComma").keydown(function(e){
+        const key = event.key;
+        if ((key === '#') || (key === '.')) {
+            event.preventDefault();
+            alert('You cant use " # " or " . " sign in here :-)')
+        }
+    })
+    function showModal() {
+        let modalContainer = document.querySelector('div.modal-container');
+        let modal = document.querySelector('.modal');
+        modalContainer.classList.remove('hide');
+        modal.classList.add('show');
+    }
+
+    function hideModal() {
+        let modalContainer = document.querySelector('div.modal-container');
+        let modal = document.querySelector('.modal');
+        modalContainer.classList.add('hide');
+        modal.classList.remove('show');
+    }
+
+    
+
+    
+    function myFunction() {
+        var copyText = document.getElementById('resultText');
+
+        navigator.clipboard.writeText(copyText.innerText);
+
+        var tooltip = document.getElementById("myTooltip");
+        tooltip.innerHTML = "Copied: Successfully";
+    }
+
+
+
+    function reset() {
+        var resbox = document.getElementById('resultText');
+        resbox.innerHTML = "Cleared";
+
+        var tooltip = document.getElementById("myTooltip");
+        tooltip.innerHTML = "Reset: Successfully";
+    }
+
+    function toMainPage() {
+        location.href = '../tags/';
+    }
+</script>
+
+
+</html>
